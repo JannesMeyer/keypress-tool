@@ -55,27 +55,24 @@ var keyCodeMap = {
  */
 var buckets = Object.create(null);
 
-// Install the event handler
-if (isBrowser) {
-	addEventListener('keydown', function(ev) {
-		var hash = ev.keyCode + '-' + (ev.ctrlKey  ? '1' : '0') + (ev.metaKey  ? '1' : '0')
-			                          + (ev.shiftKey ? '1' : '0') + (ev.altKey   ? '1' : '0');
-		var bucket = buckets[hash];
-		if (bucket === undefined || bucket.length === 0) {
-			return;
-		}
-		bucket = bucket.filter(lnr => lnr.inputEl || !isInputElement(ev.target));
-		if (bucket.length === 0) {
-			return;
-		}
-		if (!bucket.executeDefault) {
-			ev.stopPropagation();
-			ev.preventDefault();
-		}
-		for (var lnr of bucket) {
-			lnr.call(this, ev);
-		}
-	});
+function handleKey(ev) {
+	var hash = ev.keyCode + '-' + (ev.ctrlKey  ? '1' : '0') + (ev.metaKey  ? '1' : '0')
+		                          + (ev.shiftKey ? '1' : '0') + (ev.altKey   ? '1' : '0');
+	var bucket = buckets[hash];
+	if (bucket === undefined || bucket.length === 0) {
+		return;
+	}
+	bucket = bucket.filter(lnr => lnr.inputEl || !isInputElement(ev.target));
+	if (bucket.length === 0) {
+		return;
+	}
+	if (!bucket.executeDefault) {
+		ev.stopPropagation();
+		ev.preventDefault();
+	}
+	for (var lnr of bucket) {
+		lnr.call(this, ev);
+	}
 }
 
 /**
@@ -90,6 +87,18 @@ class ListenerBucket extends Array {
 		this.executeDefault = executeDefault;
 	}
 
+	addListener(callback, inputEl = false) {
+		if (!isBrowser) { return; }
+		// Just tack an attribute on the function. Why not?
+		callback.inputEl = inputEl;
+		this.push(callback);
+	}
+
+	removeListener(callback) {
+		if (!isBrowser) { return; }
+		// TODO: remove from array
+	}
+
 	toString() {
 		var m = this.modifiers;
 		if (isMac) {
@@ -101,18 +110,6 @@ class ListenerBucket extends Array {
 			       (m.has('alt')   ? 'Alt+'   : '') + (m.has('shift') ? 'Shift+' : '') +
 			       this.keyName;
 		}
-	}
-
-	addListener(callback, inputEl = false) {
-		if (!isBrowser) { return; }
-		// Just tack an attribute on the function. Why not?
-		callback.inputEl = inputEl;
-		this.push(callback);
-	}
-
-	removeListener(callback) {
-		if (!isBrowser) { return; }
-		// TODO: remove from array
 	}
 
 }
@@ -137,7 +134,7 @@ function parseChar(char) {
 /**
  * Get the bucket for this specific key combination
  */
-export default function KeyPress(char, options = []) {
+function KeyPress(char, options = []) {
 	// TODO: What if the options are capitalized?
 	var m = new Set(options);
 
@@ -163,3 +160,16 @@ export default function KeyPress(char, options = []) {
 		return buckets[hash];
 	}
 }
+
+KeyPress.enable = function() {
+	isBrowser && addEventListener('keydown', handleKey);
+}
+
+KeyPress.disable = function() {
+	isBrowser && removeEventListener('keydown', handleKey);
+}
+
+// Install the event handler
+KeyPress.enable();
+
+export default KeyPress;
