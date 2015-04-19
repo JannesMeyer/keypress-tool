@@ -1,10 +1,10 @@
 BABEL=./node_modules/.bin/babel
 JASMINE=./node_modules/.bin/jasmine
 
-js = index.es5.js
-spec = spec/index-spec.es5.js
+js = keypress-tool.es5.js DOMHelpers.es5.js
+spec = spec/keypress-tool-spec.es5.js
 
-all: $(js) $(spec) node_modules
+all: node_modules $(js) $(spec)
 
 test: all
 	$(JASMINE)

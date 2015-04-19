@@ -1,5 +1,5 @@
 import { capitalize } from 'string-tool';
-import { isInputElement } from './DOMHelpers';
+import { isInputElement } from './DOMHelpers.es5';
 
 var isBrowser = (typeof window !== 'undefined');
 
@@ -84,6 +84,7 @@ if (isBrowser) {
 class ListenerBucket extends Array {
 
 	constructor(char, modifiers, executeDefault) {
+		super();
 		this.keyName = capitalize(char);
 		this.modifiers = modifiers;
 		this.executeDefault = executeDefault;
