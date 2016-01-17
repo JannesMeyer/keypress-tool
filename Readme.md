@@ -4,17 +4,13 @@
 [![Dependencies](https://david-dm.org/JannesMeyer/keypress-tool.svg)](https://david-dm.org/JannesMeyer/keypress-tool)
 [![Development Dependencies](https://david-dm.org/JannesMeyer/keypress-tool/dev-status.svg)](https://david-dm.org/JannesMeyer/keypress-tool#info=devDependencies)
 
-[![NPM](https://nodei.co/npm/keypress-tool.png)](https://www.npmjs.com/package/keypress-tool)
-
-Import the module:
-
-```js
-import KeyPress from 'keypress-tool';
-```
+[![npm](https://nodei.co/npm/keypress-tool.png?downloads=true)](https://www.npmjs.com/package/keypress-tool)
 
 ## Usage
 
 ```js
+import KeyPress from 'keypress-tool';
+
 KeyPress('a', ['ctrl']) === KeyPress('a', ['ctrl']) // true
 KeyPress('a', ['ctrl']) === KeyPress('a', ['ctrl', 'shift']) // false
 ```
