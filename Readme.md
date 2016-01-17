@@ -4,7 +4,7 @@
 [![Dependencies](https://david-dm.org/JannesMeyer/keypress-tool.svg)](https://david-dm.org/JannesMeyer/keypress-tool)
 [![Development Dependencies](https://david-dm.org/JannesMeyer/keypress-tool/dev-status.svg)](https://david-dm.org/JannesMeyer/keypress-tool#info=devDependencies)
 
-[![npm](https://nodei.co/npm/keypress-tool.png?mini=true)](https://www.npmjs.com/package/keypress-tool)
+[![npm](https://nodei.co/npm/keypress-tool.png?compact=true)](https://www.npmjs.com/package/keypress-tool)
 
 ## Usage
 
