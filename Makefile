@@ -1,21 +1,19 @@
-BABEL=./node_modules/.bin/babel
-JASMINE=./node_modules/.bin/jasmine
+BABEL = ./node_modules/.bin/babel
 
-js = keypress-tool.es5.js DOMHelpers.es5.js
-spec = spec/keypress-tool-spec.es5.js
+.PHONY: all
+all: node_modules
+	@$(BABEL) . --out-dir . --ignore "node_modules" --extensions ".es6"
 
-all: node_modules $(js) $(spec)
+.PHONY: watch
+watch: node_modules
+	@$(BABEL) . -w --out-dir . --ignore "node_modules" --extensions ".es6"
 
-test: all
-	$(JASMINE)
-
-test-without-color: all
-	$(JASMINE) --no-color
+.PHONY: clean
+clean:
+	-rm -f *.log *.js ./spec/*.js
 
 node_modules:
 	npm install
 
-%.es5.js:: %.js
-	$(BABEL) -o $@ $<
-
-.PHONY: all test test-without-color
+%.js:: %.es6
+	$(BABEL) $< --out-file $@

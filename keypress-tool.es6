@@ -1,5 +1,5 @@
 import { capitalize } from 'string-tool';
-import { isInputElement } from './DOMHelpers.es5';
+import { isInputElement } from './DOMHelpers';
 
 var isBrowser = (typeof window !== 'undefined');
 

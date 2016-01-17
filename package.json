@@ -1,21 +1,22 @@
 {
   "name": "keypress-tool",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Create custom keyboard shortcuts (in the browser)",
-  "keywords": [ "keyboard", "shortcut", "browser" ],
+  "keywords": ["keyboard", "shortcut", "browser"],
   "author": "Jannes Meyer <jannes.meyer@gmail.com>",
-  "license": "LGPLv3",
+  "license": "LGPL-3.0",
   "repository": "JannesMeyer/keypress-tool",
+  "main": "keypress-tool.js",
   "scripts": {
-    "prepublish": "make",
-    "test": "make test"
+    "prepublish": "make clean && make",
+    "test": "./node_modules/.bin/jasmine"
   },
-  "main": "keypress-tool.es5.js",
   "dependencies": {
     "string-tool": "^1.2.5"
   },
   "devDependencies": {
-    "babel": "x",
-    "jasmine": "^2.2.1"
+    "babel-cli": "^6.3.26",
+    "babel-preset-es2015": "^6.3.13",
+    "jasmine": "^2.4.1"
   }
 }
