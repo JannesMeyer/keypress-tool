@@ -6,18 +6,18 @@
 
 [![NPM](https://nodei.co/npm/keypress-tool.png)](https://www.npmjs.com/package/keypress-tool)
 
-**Import the module** (ES6 syntax)
+Import the module:
 
-~~~js
+```js
 import KeyPress from 'keypress-tool';
-~~~
+```
 
-## KeyPress
+## Usage
 
-~~~js
+```js
 KeyPress('a', ['ctrl']) === KeyPress('a', ['ctrl']) // true
 KeyPress('a', ['ctrl']) === KeyPress('a', ['ctrl', 'shift']) // false
-~~~
+```
 
 Options can be an Array with combinations of the following values:
 
@@ -32,3 +32,18 @@ Options can be an Array with combinations of the following values:
 http://www.quirksmode.org/js/keys.html
 Only some keys work in fullscreen in Safari:
 tab, enter, space, left, up, right, down, ; = , - . / ` [\ ] '
+
+## Contributing
+
+Download source and compile:
+
+	git clone git@github.com:[USERNAME]/keypress-tool.git
+	make
+
+Watch for changes and recompile:
+
+	make watch
+
+Run tests:
+
+	npm test
