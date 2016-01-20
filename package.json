@@ -2,7 +2,9 @@
   "name": "keypress-tool",
   "version": "1.0.5",
   "description": "Create custom keyboard shortcuts (in the browser)",
-  "keywords": ["keyboard", "shortcut", "browser"],
+  "keywords": [
+    "keyboard", "shortcut", "browser"
+  ],
   "author": "Jannes Meyer <jannes.meyer@gmail.com>",
   "license": "LGPL-3.0",
   "repository": "JannesMeyer/keypress-tool",
