@@ -1,4 +1,4 @@
-import { isInputElement } from './DOMHelpers';
+import { isInputElement } from './DOMService';
 
 /**
  * Map from strings to key codes

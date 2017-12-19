@@ -10,8 +10,8 @@
   "author": "Jannes Meyer <jannes.meyer@gmail.com>",
   "license": "LGPL-3.0",
   "repository": "JannesMeyer/keypress-tool",
-  "main": "keypress-tool.js",
-  "types": "keypress-tool.ts",
+  "main": "KeyPress.js",
+  "types": "KeyPress.ts",
   "scripts": {
     "prepare": "tsc",
     "start": "tsc -w",
