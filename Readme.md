@@ -17,14 +17,14 @@ KeyPress('A', 'ctrl') === KeyPress('A', 'ctrl', 'shift'); // false
 
 // Add listeners like this
 KeyPress('A', 'shift').addListener(ev => {
-	console.log('Key combination pressed');
+  console.log('Key combination pressed');
 });
 
 // Set the second parameter to true if this listener should also fire during text input
 KeyPress('A', 'meta').addListener(handleEvent, true);
 
 function handleEvent(event) {
-	console.log('Key combination pressed');
+  console.log('Key combination pressed');
 }
 
 // Clean up (very important to avoid memory leaks)
@@ -41,7 +41,7 @@ k.toString(); // '⌃⌥⇧⌘A' on macOS
 
 Only these special keys work in fullscreen in Safari:
 
-	Tab, Enter, Space, Left, Up, Right, Down, ; = , - . / \` \[ \] '
+  Tab, Enter, Space, Left, Up, Right, Down, ; = , - . / \` \[ \] '
 
 See also:
 
