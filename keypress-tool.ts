@@ -1,106 +1,137 @@
-import { capitalize } from 'string-tool';
 import { isInputElement } from './DOMHelpers';
 
-var isBrowser = (typeof window !== 'undefined');
+/**
+ * Map from strings to key codes
+ */
+export enum KeyCode {
+	Backspace = 8,
+	Tab = 9,
+	Clear = 12,
+	Enter = 13,
+	Return = 13,
+	Esc = 27,
+	Space = 32,
+	Left = 37,
+	Up = 38,
+	Right = 39,
+	Down = 40,
+	Del = 46,
+	Home = 36,
+	End = 35,
+	PageUp = 33,
+	PageDown = 34,
+	// TODO: F1-F12
+	',' = 188,
+	'.' = 190,
+	'/' = 191,
+	'`' = 192,
+	'-' = 189,
+	'=' = 187,
+	';' = 186,
+	'\'' = 222,
+	'[' = 219,
+	']' = 221,
+	'\\' = 220,
+	A = 65,
+	B = 66,
+	C = 67,
+	D = 68,
+	E = 69,
+	F = 70,
+	G = 71,
+	H = 72,
+	I = 73,
+	J = 74,
+	K = 75,
+	L = 76,
+	M = 77,
+	N = 78,
+	O = 79,
+	P = 80,
+	Q = 81,
+	R = 82,
+	S = 83,
+	T = 84,
+	U = 85,
+	V = 86,
+	W = 87,
+	X = 88,
+	Y = 89,
+	Z = 90,
+}
+
+type option = 'ctrl' | 'meta' | 'alt' | 'shift' | 'macctrl' | 'executeDefault';
+
+interface IListener {
+	(ev: Event): void;
+	inputEl?: boolean;
+}
+
+const isBrowser = (typeof window !== 'undefined');
 
 /**
  * We're using this to determine which modifier key should be used for ctrl key combinations.
  * On Macs the command key is used for key combinations that usually use the ctrl key.
  */
-var isMac = (isBrowser && navigator.platform.indexOf('Mac') !== -1);
-
-/**
- * Map from strings to keyCodes
- */
-var keyCodeMap = {
-	'backspace': 8,
-	'tab': 9,
-	'clear': 12,
-	'enter': 13,
-	'return': 13,
-	'esc': 27,
-	'space': 32,
-	'left': 37,
-	'up': 38,
-	'right': 39,
-	'down': 40,
-	'del': 46,
-	'home': 36,
-	'end': 35,
-	'pageup': 33,
-	'pagedown': 34,
-	// TODO: F1-F12
-	',': 188,
-	'.': 190,
-	'/': 191,
-	'`': 192,
-	'-': 189,
-	'=': 187,
-	';': 186,
-	'\'': 222,
-	'[': 219,
-	']': 221,
-	'\\': 220,
-	'a': 65, 'b': 66, 'c': 67, 'd': 68,
-	'e': 69, 'f': 70, 'g': 71, 'h': 72,
-	'i': 73, 'j': 74, 'k': 75, 'l': 76,
-	'm': 77, 'n': 78, 'o': 79, 'p': 80,
-	'q': 81, 'r': 82, 's': 83, 't': 84,
-	'u': 85, 'v': 86, 'w': 87, 'x': 88,
-	'y': 89, 'z': 90
-};
+const isMac = (isBrowser && navigator.platform.indexOf('Mac') !== -1);
 
 /**
  * Contains a ListenerBucket for each seen key combination hash
  */
-var buckets = Object.create(null);
-
-function handleKey(ev) {
-	var hash = ev.keyCode + '-' + (ev.ctrlKey  ? '1' : '0') + (ev.metaKey  ? '1' : '0')
-		                          + (ev.shiftKey ? '1' : '0') + (ev.altKey   ? '1' : '0');
-	var bucket = buckets[hash];
-	if (bucket === undefined || bucket.length === 0) {
-		return;
-	}
-	bucket = bucket.filter(lnr => lnr.inputEl || !isInputElement(ev.target));
-	if (bucket.length === 0) {
-		return;
-	}
-	if (!bucket.executeDefault) {
-		ev.stopPropagation();
-		ev.preventDefault();
-	}
-	for (var lnr of bucket) {
-		lnr.call(this, ev);
-	}
-}
+const buckets: { [hashCode: string]: ListenerBucket } = Object.create(null);
 
 /**
  * A container for callbacks
  */
-class ListenerBucket extends Array {
+export class ListenerBucket {
 
-	constructor(char, modifiers, executeDefault) {
-		super();
-		this.keyName = capitalize(char);
-		this.modifiers = modifiers;
-		this.executeDefault = executeDefault;
+	listeners: IListener[] = [];
+	keyName: keyof typeof KeyCode;
+	keyCode: KeyCode;
+	options: Set<option>;
+	preventDefault: boolean;
+
+	constructor(char: keyof typeof KeyCode, options: Set<option>) {
+		this.keyName = char;
+		this.keyCode = KeyCode[char];
+		this.options = options;
+		this.preventDefault = !options.has('executeDefault');
 	}
 
-	addListener(callback, inputEl = false) {
-		if (!isBrowser) { return; }
-		// Just tack an attribute on the function. Why not?
-		callback.inputEl = inputEl;
-		this.push(callback);
+	addListener(listener: IListener, inputEl?: boolean) {
+		if (!isBrowser) {
+			return;
+		}
+		
+		if (this.listeners.indexOf(listener) > -1) {
+			throw new Error('This listener is already listening. You might have a memory leak in your code.');
+		}
+
+		// Save inputEl boolean on the function
+		if (inputEl != null) {
+			listener.inputEl = inputEl;
+		}
+
+		// Save listener
+		this.listeners.push(listener);
 	}
 
-	removeListener(callback) {
-		if (!isBrowser) { return; }
-		// TODO: remove from array
+	removeListener(listener: IListener) {
+		if (!isBrowser) {
+			return;
+		}
+		
+		let index = this.listeners.indexOf(listener);
+		if (index === -1) {
+			return;
+		}
+
+		// Remove listener
+		this.listeners.splice(index, 1);
 	}
 
 	toString() {
-		var m = this.modifiers;
+		let m = this.options;
 		if (isMac) {
 			return (m.has('ctrl')  ? '⌃' : '') + (m.has('alt')   ? '⌥' : '') +
 			       (m.has('shift') ? '⇧' : '') + (m.has('meta')  ? '⌘' : '') +
@@ -112,33 +143,31 @@ class ListenerBucket extends Array {
 		}
 	}
 
-}
+	static hashCode(keyCode: KeyCode, options: Set<option>) {
+		return keyCode + '-' +
+			(options.has('ctrl')  ? '1' : '0') +
+			(options.has('meta') ? '1' : '0') +
+			(options.has('shift') ? '1' : '0') +
+			(options.has('alt')  ? '1' : '0');
+	}
 
-/**
- * Parse string to keyCode (numbers get returned unchanged)
- */
-function parseChar(char) {
-	if (typeof char === 'number') {
-		return char;
+	static hashCodeFromEvent(ev: KeyboardEvent) {
+		return ev.keyCode + '-' +
+			(ev.ctrlKey  ? '1' : '0') +
+			(ev.metaKey  ? '1' : '0') +
+			(ev.shiftKey ? '1' : '0') +
+			(ev.altKey   ? '1' : '0');
 	}
-	if (typeof char !== 'string') {
-		throw new TypeError('First argument must be a string or number');
-	}
-	char = char.toLowerCase();
-	if (!keyCodeMap.hasOwnProperty(char)) {
-		throw new Error('Key not found');
-	}
-	return keyCodeMap[char];
+
 }
 
 /**
  * Get the bucket for this specific key combination
  */
-function KeyPress(char, options = []) {
-	// TODO: What if the options are capitalized?
-	var m = new Set(options);
+export default function KeyPress(char: keyof typeof KeyCode, ...options: option[]) {
+	let m = new Set(options);
 
-	// Do some mangling for OS X
+	// Do some processing for OS X
 	if (isMac && m.has('ctrl')) {
 		m.delete('ctrl');
 		m.add('meta');
@@ -148,28 +177,48 @@ function KeyPress(char, options = []) {
 	}
 
 	// Compute hash for this key combination
-	var hash = parseChar(char) + '-' + (m.has('ctrl')  ? '1' : '0') + (m.has('meta') ? '1' : '0')
-		                               + (m.has('shift') ? '1' : '0') + (m.has('alt')  ? '1' : '0');
-
-	// Return the ListenerBucket for this key combination
-	if (buckets[hash] === undefined) {
-		// TODO: what if char is a number? we need a mapping from a keyCode to its name
-		return buckets[hash] = new ListenerBucket(char, m, m.has('executeDefault'));
+	let hashCode = ListenerBucket.hashCode(KeyCode[char], m);
+	let bucket = buckets[hashCode];
+	if (bucket == null) {
+		bucket = buckets[hashCode] = new ListenerBucket(char, m);
 	} else {
-		// TODO: update executeDefault
-		return buckets[hash];
+		// Update preventDefault, because only one of them is possible
+		bucket.preventDefault = !m.has('executeDefault');
+	}
+
+	return bucket;
+}
+
+function handleKey(this: Window, ev: KeyboardEvent) {
+	let hash = ListenerBucket.hashCodeFromEvent(ev);
+	let bucket = buckets[hash];
+	if (bucket == null || bucket.listeners.length === 0) {
+		return;
+	}
+	
+	let el = ev.currentTarget as HTMLElement;
+	let listeners = bucket.listeners.filter(lnr => lnr.inputEl || !isInputElement(el));
+	if (listeners.length === 0) {
+		return;
+	}
+
+	if (bucket.preventDefault) {
+		ev.stopPropagation();
+		ev.preventDefault();
+	}
+	
+	for (let listener of listeners) {
+		listener.call(this, ev);
 	}
 }
 
-KeyPress.enable = function() {
+export function enable() {
 	isBrowser && addEventListener('keydown', handleKey);
 }
 
-KeyPress.disable = function() {
+export function disable() {
 	isBrowser && removeEventListener('keydown', handleKey);
 }
 
 // Install the event handler
-KeyPress.enable();
-
-export default KeyPress;
+enable();
