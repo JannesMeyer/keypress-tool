@@ -68,8 +68,8 @@ Run tests:
 yarn test
 ```
 
-Please respect the existing formatting and indentation style. Please add tests for code that you contribute. Submit a pull request when you are done.
+Pull requests welcome. Please respect the existing formatting and indentation style. Furthermore, please add tests for code that you contribute.
 
 ## License
 
-[GPL v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[LGPL v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html)
