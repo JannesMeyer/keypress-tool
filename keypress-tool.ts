@@ -125,12 +125,16 @@ export class ListenerBucket {
 	toString() {
 		let m = this.options;
 		if (isMac) {
-			return (m.has('ctrl')  ? '⌃' : '') + (m.has('alt')   ? '⌥' : '') +
-			       (m.has('shift') ? '⇧' : '') + (m.has('meta')  ? '⌘' : '') +
+			return (m.has('ctrl')  ? '⌃' : '') +
+			       (m.has('alt')   ? '⌥' : '') +
+						 (m.has('shift') ? '⇧' : '') +
+						 (m.has('meta')  ? '⌘' : '') +
 			       this.keyName;
 		} else {
-			return (m.has('meta')  ? 'Win+'   : '') + (m.has('ctrl')  ? 'Ctrl+'  : '') +
-			       (m.has('alt')   ? 'Alt+'   : '') + (m.has('shift') ? 'Shift+' : '') +
+			return (m.has('meta')  ? 'Win+'   : '') +
+			       (m.has('ctrl')  ? 'Ctrl+'  : '') +
+						 (m.has('alt')   ? 'Alt+'   : '') +
+						 (m.has('shift') ? 'Shift+' : '') +
 			       this.keyName;
 		}
 	}
