@@ -1,4 +1,4 @@
-import KeyPress from '../keypress-tool';
+import KeyPress from '../KeyPress';
 
 describe('KeyPress wrapper', () => {
   it('returns same bucket with same options', () => {
