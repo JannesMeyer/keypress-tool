@@ -1,5 +1,15 @@
 {
     "compilerOptions": {
-        "module": "commonjs"
-    }
+        "lib": [
+            "es2015", "dom"
+        ],
+        "strict": true,
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "types": []
+    },
+    "include": [
+        "*.ts"
+    ]
 }
