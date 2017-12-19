@@ -13,7 +13,7 @@
   "main": "keypress-tool.js",
   "types": "keypress-tool.ts",
   "scripts": {
-    "prepublish": "tsc",
+    "prepare": "tsc",
     "start": "tsc -w",
     "test": "tsc -p spec && jasmine"
   },

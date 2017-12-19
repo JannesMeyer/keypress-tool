@@ -53,7 +53,6 @@ Download source and compile:
 
 	git clone git@github.com:JannesMeyer/keypress-tool.git
 	yarn
-	yarn run prepublish
 
 Or compile and watch for file changes:
 
