@@ -99,10 +99,6 @@ export class ListenerBucket {
 	}
 
 	addListener(listener: IListener, inputEl?: boolean) {
-		if (!isBrowser) {
-			return;
-		}
-		
 		if (this.listeners.indexOf(listener) > -1) {
 			throw new Error('This listener is already listening. You might have a memory leak in your code.');
 		}
@@ -117,10 +113,6 @@ export class ListenerBucket {
 	}
 
 	removeListener(listener: IListener) {
-		if (!isBrowser) {
-			return;
-		}
-		
 		let index = this.listeners.indexOf(listener);
 		if (index === -1) {
 			return;
@@ -213,11 +205,13 @@ function handleKey(this: Window, ev: KeyboardEvent) {
 }
 
 export function enable() {
-	isBrowser && addEventListener('keydown', handleKey);
+	if (!isBrowser) { return; }
+	addEventListener('keydown', handleKey);
 }
 
 export function disable() {
-	isBrowser && removeEventListener('keydown', handleKey);
+	if (!isBrowser) { return; }
+	removeEventListener('keydown', handleKey);
 }
 
 // Install the event handler
