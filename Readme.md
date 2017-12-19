@@ -8,7 +8,7 @@
 
 ## Usage
 
-```js
+˜˜˜js
 import KeyPress from 'keypress-tool';
 
 // Calling it with the same parameters returns identical objects
@@ -37,7 +37,7 @@ KeyPress('A', 'executeDefault');
 let k = KeyPress('A', 'ctrl', 'shift', 'alt', 'meta');
 k.toString(); // 'Win+Ctrl+Alt+Shift+A' on most platforms
 k.toString(); // '⌃⌥⇧⌘A' on macOS
-```
+˜˜˜
 
 Only these special keys work in fullscreen in Safari:
 
@@ -51,16 +51,22 @@ See also:
 
 Download source and compile:
 
-	git clone git@github.com:JannesMeyer/keypress-tool.git
-	yarn
+˜˜˜sh
+git clone git@github.com:JannesMeyer/keypress-tool.git
+yarn
+˜˜˜
 
 Or compile and watch for file changes:
 
-	yarn start
+˜˜˜sh
+yarn start
+˜˜˜
 
 Run tests:
 
-	yarn test
+˜˜˜sh
+yarn test
+˜˜˜
 
 Please respect the existing formatting and indentation style. Please add tests for code that you contribute. Submit a pull request when you are done.
 
