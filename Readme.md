@@ -21,14 +21,14 @@ KeyPress('A', 'shift').addListener(ev => {
 });
 
 // Set the second parameter to true if this listener should also fire during text input
-KeyPress('A', 'meta').addListener(handleEvent, true);
+KeyPress('A').addListener(handleEvent, true);
 
 function handleEvent(event) {
   console.log('Key combination pressed');
 }
 
 // Clean up (very important to avoid memory leaks)
-KeyPress('A', 'meta').removeListener(handleEvent);
+KeyPress('A').removeListener(handleEvent);
 
 // The default is to preventDefault. Pass 'executeDefault' if you want to change this
 KeyPress('A', 'executeDefault');
