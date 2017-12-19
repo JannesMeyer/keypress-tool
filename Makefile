@@ -1,12 +1,8 @@
-BABEL = ./node_modules/.bin/babel
+TSC = ./node_modules/.bin/tsc
 
 .PHONY: all
 all: node_modules
-	@$(BABEL) . --out-dir . --ignore "node_modules" --extensions ".ts"
-
-.PHONY: watch
-watch: node_modules
-	@$(BABEL) . -w --out-dir . --ignore "node_modules" --extensions ".ts"
+	@$(TSC)
 
 .PHONY: clean
 clean:
@@ -14,6 +10,3 @@ clean:
 
 node_modules:
 	npm install
-
-%.js:: %.es6
-	$(BABEL) $< --out-file $@
