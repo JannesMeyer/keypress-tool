@@ -56,7 +56,7 @@ git clone git@github.com:JannesMeyer/keypress-tool.git
 yarn
 ```
 
-Or compile and watch for file changes:
+Compile and watch for file changes:
 
 ```sh
 yarn start
