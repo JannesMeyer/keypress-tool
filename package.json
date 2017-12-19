@@ -1,6 +1,6 @@
 {
   "name": "keypress-tool",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Create custom keyboard shortcuts (in the browser)",
   "keywords": [
     "keyboard",
