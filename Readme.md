@@ -63,3 +63,7 @@ Run tests:
 	yarn test
 
 Please respect the existing formatting and indentation style. Please add tests for code that you contribute. Submit a pull request when you are done.
+
+## License
+
+[GPL v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
