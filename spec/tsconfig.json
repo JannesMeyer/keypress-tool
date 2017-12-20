@@ -4,6 +4,7 @@
     "*.ts"
   ],
   "compilerOptions": {
-    "types": null
+    "types": null,
+    "module": "commonjs"
   }
 }
